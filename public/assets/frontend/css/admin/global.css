@@ -1,0 +1,5 @@
+@import url(bootstrap.css);
+@import url(admin.css);
+.navbar-nav>.user-menu>.dropdown-menu>.user-footer {
+    background-color: #336699;
+}

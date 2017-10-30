@@ -1,0 +1,120 @@
+<%- include ../includes/header.ejs %>
+    <style>
+        .btn-file {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-file input[type=file] {
+            position: absolute;
+            top: 0;
+            right: 0;
+            min-width: 100%;
+            min-height: 100%;
+            font-size: 100px;
+            text-align: right;
+            filter: alpha(opacity=0);
+            opacity: 0;
+            outline: none;
+            background: white;
+            cursor: inherit;
+            display: block;
+        }
+    </style>
+    <div class="content-wrapper" style="margin-left:0px">
+        <section class="content-header">
+            <h1 data-ng-header>Passengers Dashboard</h1>
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="box">
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div class="box-body">
+
+
+                        <div class="col-md-12">
+
+                        </div>
+                        <input class="active-tab" value="passengers" type="hidden" />
+
+                    </div>
+                    <div class="box-body col-md-12">
+                        <table class="table table-bordered table-striped logTable">
+                            <thead>
+
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Board Time</th>
+                                    <th>Board Location</th>
+                                    <th>NRIC</th>
+                                    <th>Contingent</th>
+                                    <th>Sport</th>
+                                    <th>Tag ID</th>
+                                    <th>Post</th>
+                                    <th>Access</th>
+                                    <th>Depart Time</th>
+                                    <th>Depart Location</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% for(var i=0; i < passengers.length; i++) { %>
+                                    <tr>
+                                        <td>
+                                            <%= passengers[i].name %>
+                                        </td>
+                                        <td>
+                                            <%= passengers[i].board_time %>
+                                        </td>
+                                        <td>
+                                            <%= passengers[i].board_location %>
+                                        </td>
+                                        <td>
+                                            <%= passengers[i].nric %>
+                                        </td>
+                                        <td>
+                                            <%= passengers[i].contingent %>
+                                        </td>
+                                        <td>
+                                            <%= passengers[i].sport %>
+                                        </td>
+                                        <td>
+                                            <%= passengers[i].tagID %>
+                                        </td>
+                                        <td>
+                                            <%= passengers[i].post %>
+                                        </td>
+                                        <td>
+                                            <%= passengers[i].access %>
+                                        </td>
+                                        <td>
+                                            <%= passengers[i].depart_time %>
+                                        </td>
+                                        <td>
+                                            <%= passengers[i].depart_location %>
+                                        </td>
+                                    </tr>
+                                    <% } %>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+            </div>
+        </section>
+        <!-- /.content -->
+    </div>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+
+            $('.logTable').dataTable({
+                "aaSorting": [
+                    [0, "desc"]
+                ]
+            });
+        });
+    </script>
+
+    <%- include ../includes/footer.ejs %>

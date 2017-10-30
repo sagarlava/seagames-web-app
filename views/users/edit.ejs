@@ -1,0 +1,115 @@
+<%- include ../includes/header.ejs %>
+    <div class="box">
+        <div class="box-body">
+
+            <form method="POST">
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Name*</label>
+                            <input type="text" name="name" value="<%= user.name %>" id="name" placeholder="Enter your name" class="form-control" />
+                            <br />
+
+                            <label>User Name *</label>
+                            <input type="text" name="username" value="<%= user.username %>" id="username" placeholder="Enete your username" class="form-control" />
+                            <br />
+                            <input type="hidden" value="<%= user.bus_no%>" id="stored_bus_no">
+                            <input type="hidden" value="<%= user.type%>" id="stored_user_type">
+                            <input type="hidden" value="<%= user.assigned_region %>" id="stored_assigned_region">
+                            <br />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Type * </label>
+                            <select name="type" id="type" class="form-control">
+                                    <option value="driver">driver</option>
+                                    <option value="admin">admin</option>
+                            </select>
+                            <br/>
+                            <div id="bus_choice">
+                                <label>Bus No</label>
+                                <select name="bus_no" class="form-control" id="bus_no"></select>
+                            </div>
+                            <br/>
+                            <div id="region_section">
+                                <label>Assigned Region *</label>
+                                <select name="assigned_region" class="form-control" id="assigned_region">
+                                    <option value="brunei">Brunei</option>
+                                    <option value="cambodia">Cambodia</option>
+                                    <option value="indonesia">Indonesia</option>
+                                    <option value="laos">Laos</option>
+                                    <option value="malaysia">Malaysia</option>
+                                    <option value="myanmar">Myanmar</option>
+                                    <option value="philippines">Philippines</option>
+                                    <option value="singapore">Singapore</option>
+                                    <option value="thailand">Thailand</option>
+                                    <option value="timor">Timor-Leste</option>
+                                    <option value="vietnam">Vietnam</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="row-photo">
+                        <div class="col-md-12">
+                            <div class="row" style="margin-top:10px;">
+                                <div class="form-group">
+                                    <div class="col-md-12 text-center">
+                                        <button type="submit" class="btn btn-success">Submit</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!-- /.box-body -->
+    </div>
+    <script>
+        $(document).ready(function() {
+        var storedAssignerRegion = $('#stored_assigned_region').val();
+        var storedBusNo = $('#stored_bus_no').val();
+        var storedUserType = $('#stored_user_type').val();
+                $.ajax({
+                    type: 'GET',
+                    url: "http://54.255.154.6:3000/api/v1/users/existing-buses",
+                    dataType: 'json',
+                    success: function(data) {
+                        var resp = {
+                            users: data
+                        };
+                        console.log(data);
+                      var listItems= "";
+                      for (var i = 0; i < data.buses.length; i++){
+                        listItems+= "<option value='" + data.buses[i].bus_num + "'>" + data.buses[i].bus_num + "</option>";
+                      }
+                      $("#bus_no").html(listItems);
+                      $("#bus_no").val(storedBusNo);
+                      $("#type").val(storedUserType);
+                      $("#assigned_region").val(storedAssignerRegion);
+                      if (storedUserType == 'admin'){
+                            $("#bus_choice").hide();
+                            $("#region_section").hide();
+                      }
+                      
+                    },
+                    error: function(xhr, ajaxOptions, thrownError) {
+                       window.location.replace("../index.html");
+                    }
+                });
+
+            $('#type').on('change', function() {
+                if (this.value == 'driver') {
+                    $("#bus_choice").show();
+                    $("#region_section").show();
+                } else {
+                    $("#bus_choice").hide();
+                    $("#region_section").hide();
+                }
+            });
+        });
+    </script>
+    <%- include ../includes/footer.ejs %>

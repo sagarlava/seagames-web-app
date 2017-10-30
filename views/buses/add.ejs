@@ -1,0 +1,49 @@
+<%- include ../includes/header.ejs %>
+    <div class="box" style="margin-top:30px;">
+        <div class="box-body">
+
+            <% hasData=locals.request?true:false %>
+                <% hasData?data=locals.request:undefined %>
+                    <% if(locals.errors) { %>
+                        <div class="alert alert-danger">
+                            <ul style="margin:0;list-style:none;">
+                                <% for(var i=0; i<errors.length; i++) { %>
+                                    <li>
+                                        <%= errors[i].msg %>
+                                    </li>
+                                    <% } %>
+                            </ul>
+                        </div>
+                        <% } %>
+                            <form method="POST">
+                                <div class="row">
+                                    <div class="col-md-6 col-md-offset-3">
+                                        <div class="form-group">
+                                            <label>Bus Number *</label>
+                                            <input type="text" name="bus_num" id="bus_num" placeholder="Enter the Bus Number" class="form-control" />
+                                            <br />
+                                            <label>Model*</label>
+                                            <input type="text" name="model" id="model" placeholder="Enter Bus Model" class="form-control" />
+                                            <!--<input type="text" name="username" value="<------%= hasData?data.username:"" %>" id="username" placeholder="Enter your user name" class="form-control" />-->
+                                            <br />
+                                            <label>Assigned Driver *</label>
+                                            <input type="text" name="assigned_driver" value="" id="assigned_driver" placeholder="Eneter the Driver Name" class="form-control" />
+                                            <br />
+                                        </div>
+                                    </div>
+
+                                    <div id="row-photo">
+                                        <div class="col-md-12">
+                                            <div class="row" style="margin-top:10px;">
+                                                <div class="form-group">
+                                                    <div class="col-md-12 text-center">
+                                                        <button type="submit" class="btn btn-success">Submit</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>                            <!-- /.box-body -->
+                            <%- include ../includes/footer.ejs %>
+

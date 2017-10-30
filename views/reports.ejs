@@ -1,0 +1,106 @@
+<%- include includes/header.ejs %>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.0/css/bootstrap-datepicker3.min.css">
+
+
+    <div class="box" style="margin-top:30px;">
+        <div class="box-body">
+
+            <% hasData=locals.request?true:false %>
+                <% hasData?data=locals.request:undefined %>
+                    <% if(locals.errors) { %>
+                        <div class="alert alert-danger">
+                            <ul style="margin:0;list-style:none;">
+                                <% for(var i=0; i<errors.length; i++) { %>
+                                    <li>
+                                        <%= errors[i].msg %>
+                                    </li>
+                                    <% } %>
+                            </ul>
+                        </div>
+                        <% } %>
+                            <div class="container" style="text-align:center">
+                                <!--                                <div class="jumbotron">-->
+                                <h3>Download Report</h3>
+                                <!--                                </div>-->
+                            </div>
+                            <!--                            <form method="POST">-->
+                            <div class="row">
+                                <div class="col-md-6 col-md-offset-3">
+                                    <label>Select Date *</label>
+                                    <div class=" col-md-12 input-daterange input-group" id="datepicker">
+                                        <input type="text" class="input-sm form-control" name="start" id="startdate" />
+                                        <span class="input-group-addon">to</span>
+                                        <input type="text" class="input-sm form-control" name="enddate" id="enddate" />
+                                    </div>
+                                    <br/>
+                                </div>
+
+                                <div class="col-md-6 col-md-offset-3">
+                                    <div class="form-group">
+                                        <label>Select Report By *</label>
+                                        <select name="type" class="form-control" id="reportChoice">
+                                            <option value="bus_num">Bus Number</option>
+                                            <option value="driver_name">Driver Name</option>
+                                        </select>
+                                        <br />
+                                        <div id="bus_choice">
+                                            <label>Value</label>
+                                            <input type="text" name="value" value="" id="value" placeholder="Eneter Selected Value" class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="row-photo">
+                                    <div class="col-md-12">
+                                        <div class="row" style="margin-top:10px;">
+                                            <div class="form-group">
+                                                <div class="col-md-12 text-center">
+                                                    <button type="submit" id="generateReport" class="btn btn-success">Submit</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--                            </form>-->
+
+                            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+                            <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/locale/my.js"></script>
+                            <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+                            <script>
+                                $(document).ready(function() {
+                                    $('.input-daterange').datepicker({
+                                        format: 'yyyy:mm:dd'
+                                    });
+                                    $('#userType').on('change', function() {
+                                        if (this.value == 'driver') {
+                                            $("#bus_choice").show();
+                                        } else {
+                                            $("#bus_choice").hide();
+                                        }
+                                    });
+
+                                    function filterFunction(startDate, endDate, reportChoice, value) {
+                                        alert(startDate + " " + endDate + " " + reportChoice + " " + value)
+                                        window.open('http://54.255.154.6:3000/api/v1/notifications/report/' + startDate + '/' + endDate + '/' + reportChoice + '/' + value);
+                                    }
+
+                                    $("#generateReport").click(function() {
+                                        var reportChoice = $("#reportChoice").val();
+                                        var startDate = $("#startdate").val();
+                                        var endDate = $("#enddate").val();
+                                        var value = $("#value").val();
+
+                                        if (startDate == '' || endDate == '' || reportChoice == '') {
+                                            alert("Please Fill Up all the fields")
+                                        } else {
+                                            filterFunction(startDate, endDate, reportChoice, value);
+
+                                        }
+                                    });
+                                })
+                            </script>
+
+                            <!-- /.box-body -->
+                            <%- include includes/footer.ejs %>

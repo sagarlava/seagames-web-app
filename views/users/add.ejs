@@ -1,0 +1,146 @@
+<%- include ../includes/header.ejs %>
+    <div class="box" style="margin-top:30px;">
+        <div class="box-body">
+
+            <% hasData=locals.request?true:false %>
+                <% hasData?data=locals.request:undefined %>
+                    <% if(locals.errors) { %>
+                        <div class="alert alert-danger">
+                            <ul style="margin:0;list-style:none;">
+                                <% for(var i=0; i<errors.length; i++) { %>
+                                    <li>
+                                        <%= errors[i].msg %>
+                                    </li>
+                                    <% } %>
+                            </ul>
+                        </div>
+                        <% } %>
+                            <form method="POST" id="createUserForm">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Name *</label>
+                                            <input type="text" name="name" id="name" placeholder="Enter the Name" class="form-control" />
+                                            <br />
+                                            <label>User Name*</label>
+                                            <input type="text" name="username" id="username" placeholder="Enter the User Name" class="form-control" />
+                                            <!--<input type="text" name="username" value="<------%= hasData?data.username:"" %>" id="username" placeholder="Enter your user name" class="form-control" />-->
+                                            <br />
+                                            <label>Password3 *</label>
+                                            <input type="password" name="password" value="" id="password" placeholder="Eneter your Password" class="form-control" />
+                                            <br />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Type *</label>
+                                            <select name="type" class="form-control" id="userType">
+                                                <option value="driver">Driver</option>
+                                                <option value="admin">Admin</option>
+                                            </select>
+                                            <br/>
+                                            <div id="bus_choice">
+                                                <label>Bus No *</label>
+                                                <select name="bus_no" class="form-control" id="bus_no"></select>
+                                            </div>
+                                            <br/>
+                                            <div id="region_section">
+                                                <label>Assigned Region *</label>
+                                                <select name="assigned_region" class="form-control" id="assigned_region">
+                                                    <option value="brunei">Brunei</option>
+                                                    <option value="cambodia">Cambodia</option>
+                                                    <option value="indonesia">Indonesia</option>
+                                                    <option value="laos">Laos</option>
+                                                    <option value="malaysia">Malaysia</option>
+                                                    <option value="myanmar">Myanmar</option>
+                                                    <option value="philippines">Philippines</option>
+                                                    <option value="singapore">Singapore</option>
+                                                    <option value="thailand">Thailand</option>
+                                                    <option value="timor">Timor-Leste</option>
+                                                    <option value="vietnam">Vietnam</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div id="row-photo">
+                                        <div class="col-md-12">
+                                            <div class="row" style="margin-top:10px;">
+                                                <div class="form-group">
+                                                    <div class="col-md-12 text-center">
+                                                        <button type="submit" class="btn btn-success">Submit</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            <script>
+                                var existingUsers;
+                                $(document).ready(function() {
+                                    //-----Get Existing Buses DropDown
+                                    $.ajax({
+                                        type: 'GET',
+                                        url: "http://54.255.154.6:3000/api/v1/users/existing-buses",
+                                        dataType: 'json',
+                                        success: function(data) {
+                                            var resp = {
+                                                users: data
+                                            };
+                                            var listItems = "";
+                                            for (var i = 0; i < data.buses.length; i++) {
+                                                listItems += "<option value='" + data.buses[i].bus_num + "'>" + data.buses[i].bus_num + "</option>";
+                                            }
+                                            $("#bus_no").html(listItems);
+                                        },
+                                        error: function(xhr, ajaxOptions, thrownError) {
+                                            window.location.replace("../index.html");
+                                        }
+                                    });
+
+                                    //-----Get Offlone Users Array
+                                    $.ajax({
+                                        type: 'GET',
+                                        url: "http://54.255.154.6:3000/api/v1/users/offline-users",
+                                        dataType: 'json',
+                                        success: function(data) {
+                                            existingUsers = data;
+                                        },
+                                        error: function(xhr, ajaxOptions, thrownError) {
+                                            window.location.replace("../index.html");
+                                        }
+                                    });
+                                });
+
+
+                                $('#createUserForm').submit(function() {
+                                    var bus_no = $("#bus_no").val();
+                                    var username = $("#name").val();
+                                    var submitFormBusNum = true;
+                                    var submitFormUserName = true;
+                                    console.log(bus_no);
+                                    console.log(existingUsers);
+                                    for (var u = 0; u < existingUsers.users.length; u++) {
+                                        if (bus_no.trim() == existingUsers.users[u].bus_no.trim()) {
+                                            submitFormBusNum = false;
+                                        }
+                                        if (username.trim() == existingUsers.users[u].username.trim()){
+                                            submitFormUserName = false;
+                                        }
+                                    }
+
+                                    if (!submitFormBusNum ||  !submitFormUserName) {
+                                        if(!submitFormBusNum){
+                                            alert("The Bus already assigned to Another Driver\nPlease Choose Another Bus");
+                                        }
+                                        if (!submitFormUserName){
+                                            alert("Username already exist\nPlease Choose Another username");
+                                        }
+                                        return false;
+                                    }
+                                });
+                            </script>
+
+                            <!-- /.box-body -->
+                            <%- include ../includes/footer.ejs %>

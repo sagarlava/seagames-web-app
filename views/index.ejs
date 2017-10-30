@@ -1,0 +1,736 @@
+<%- include includes/header.ejs %>
+
+    <!DOCTYPE html>
+    <html>
+
+    <head>
+        <title>Simple Map</title>
+        <meta name="viewport" content="initial-scale=1.0">
+        <meta charset="utf-8">
+        <!--        <link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css'>-->
+        <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.1/animate.min.css'>
+        <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css'>
+        <link rel='stylesheet prefetch' href='http:////netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css'>
+        <link rel='stylesheet prefetch' href='http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css'>
+        <link rel='stylesheet prefetch' href='../../assets/dist/css/home.css'>
+        <style>
+            .footer {
+                position: absolute;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                padding: 1rem;
+                background-color: #efefef;
+                text-align: center;
+            }
+            
+            footer {
+                position: absolute;
+                display: none;
+                left: 0;
+                bottom: 0;
+                width: 100%;
+                height: 10%;
+                background: rgba(0, 0, 0, 0.69);
+            }
+            
+            .fTab {
+                width: 10%;
+                height: 3em;
+                position: absolute;
+                bottom: 0;
+                left: 1em;
+                display: block;
+                background: rgba(0, 0, 0, 0.69);
+                color: #c1c1c1;
+                line-height: 4em;
+                text-align: center;
+                font-size: 1.0em;
+                border-radius: 10px 10px 0 0;
+                cursor: pointer;
+                -webkit-transition: 0.5s ease-in-out;
+                -moz-transition: 0.5s ease-in-out;
+                -ms-transition: 0.5s ease-in-out;
+                -o-transition: 0.5s ease-in-out;
+            }
+            
+            .fTab.current {
+                bottom: 10%;
+            }
+        </style>
+
+        <style>
+            .fa {
+                font-size: 30px !important;
+            }
+            
+            @charset "utf-8";
+            /* CSS Document */
+            /* ---------- GENERAL ---------- */
+            
+            body {
+                background: #e9e9e9;
+                color: #9a9a9a;
+                font: "Droid Sans", sans-serif;
+                margin: 0;
+            }
+            
+            .passenger-sidebar a {
+                text-decoration: none;
+            }
+            
+            .passenger-sidebar fieldset {
+                border: 0;
+                margin: 0;
+                padding: 0;
+            }
+            
+            .passenger-sidebar h4,
+            h5 {
+                line-height: 1.5em;
+                margin: 0;
+            }
+            
+            .passenger-sidebar hr {
+                background: #e9e9e9;
+                border: 0;
+                -moz-box-sizing: content-box;
+                box-sizing: content-box;
+                height: 1px;
+                margin: 0;
+                min-height: 1px;
+            }
+            
+            .passenger-sidebar img {
+                border: 0;
+                display: block;
+                height: 32px;
+                width: 32px;
+            }
+            
+            .passenger-sidebar input {
+                border: 0;
+                color: inherit;
+                font-family: inherit;
+                font-size: 100%;
+                line-height: normal;
+                margin: 0;
+            }
+            
+            p {
+                margin: 0;
+            }
+            
+            .clearfix {
+                *zoom: 1;
+            }
+            /* For IE 6/7 */
+            
+            .clearfix:before,
+            .clearfix:after {
+                content: "";
+                display: table;
+            }
+            
+            .clearfix:after {
+                clear: both;
+            }
+            /* ---------- LIVE-CHAT ---------- */
+            
+            .passenger-sidebar {
+                bottom: 0;
+                font-size: 12px;
+                right: 0px;
+                position: fixed;
+                width: 288.9px;
+                z-index: 1000;
+            }
+            
+            .passenger-sidebar.driver {
+                bottom: 0;
+                font-size: 12px;
+                left: 0px;
+                position: fixed;
+                width: 77.4% !important;
+                z-index: 1000;
+            }
+            
+            .passenger-sidebar header {
+                background: #293239;
+                /*            border-radius: 5px 5px 0 0;*/
+                color: #fff;
+                cursor: pointer;
+                padding: 16px 24px;
+            }
+            
+            .passenger-sidebar h4 {
+                font-size: 15px;
+            }
+            
+            .passenger-sidebar h5 {
+                font-size: 10px;
+            }
+            
+            .passenger-sidebar form {
+                padding: 24px;
+            }
+            
+            .passenger-sidebar input[type="text"] {
+                border: 1px solid #ccc;
+                border-radius: 3px;
+                padding: 8px;
+                outline: none;
+                width: 234px;
+            }
+            
+            .chat-message-counter {
+                background: #e62727;
+                border: 1px solid #fff;
+                border-radius: 50%;
+                display: none;
+                font-size: 12px;
+                font-weight: bold;
+                height: 28px;
+                left: 0;
+                line-height: 28px;
+                margin: -15px 0 0 -15px;
+                position: absolute;
+                text-align: center;
+                top: 0;
+                width: 28px;
+            }
+            
+            .chat-close {
+                background: #1b2126;
+                border-radius: 50%;
+                color: #fff;
+                display: block;
+                float: right;
+                font-size: 10px;
+                height: 16px;
+                line-height: 16px;
+                margin: 2px 0 0 0;
+                text-align: center;
+                width: 16px;
+            }
+            
+            .chat {
+                background: #fff;
+            }
+            
+            .chat-history {
+                height: 300px;
+                /* padding: 8px 24px;*/
+                overflow-y: scroll;
+                list-style-type: none;
+            }
+            
+            .driver .chat-history {
+                height: 120px;
+                margin: 0px;
+                /* padding: 8px 24px;*/
+                overflow-y: scroll;
+                list-style-type: none;
+                /*                padding: 0 10px 5px 0;*/
+                display: flex;
+            }
+            
+            .driver .chat-history li {
+                display: inline-block;
+                padding: 4px;
+            }
+            
+            .chat-message {
+                margin: 8px 0;
+            }
+            
+            .chat-message img {
+                border-radius: 50%;
+                float: left;
+            }
+            
+            .chat-message-content {
+                padding-top: 5px;
+                margin-left: 56px;
+            }
+            
+            .chat-time {
+                float: right;
+                font-size: 10px;
+            }
+            
+            .chat-feedback {
+                font-style: italic;
+                margin: 0 0 0 80px;
+            }
+            
+            .headerDivider {
+                border-left: 1px solid #38546d;
+                border-right: 1px solid #16222c;
+                height: 100%;
+            }
+            
+            .online .userAction {
+                cursor: pointer;
+            }
+            /*dropdown*/
+            
+            .dropbtn {
+                padding: 16px;
+                border: none;
+                cursor: pointer;
+            }
+            
+            .dropdown {
+                position: relative;
+/*                display: inline-block;*/
+            }
+            
+            .dropdown-content {
+                display: none;
+                position: absolute;
+                right: 0;
+                background-color: #f9f9f9;
+                min-width: 160px;
+                box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+                z-index: 1;
+            }
+            
+            .dropdown-content a {
+                color: black;
+                padding: 12px 16px;
+                text-decoration: none;
+                display: block;
+            }
+            
+            .dropdown-content a:hover {
+                background-color: #f1f1f1
+            }
+            
+            .dropdown:hover .dropdown-content {
+                display: block;
+            }
+            
+            .dropdown:hover .dropbtn {
+                /*                background-color: #3e8e41;*/
+            }
+            
+            .vertical-alignment-helper {
+                display: table;
+                height: 100%;
+                width: 100%;
+                pointer-events: none;
+                /* This makes sure that we can still click outside of the modal to close it */
+            }
+            
+            .vertical-align-center {
+                /* To center vertically */
+                display: table-cell;
+                vertical-align: middle;
+                pointer-events: none;
+            }
+            
+            .modal-content {
+                /* Bootstrap sets the size of the modal in the modal-dialog class, we need to inherit it */
+                width: inherit;
+                height: inherit;
+                /* To center horizontally */
+                margin: 0 auto;
+                pointer-events: all;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="sidebar" style="padding:0px">
+            <div class="pull-right toggle-right-sidebar active" style="position:absolute;right:0px; z-index:8888;">
+                <span class="fa fa-2x title-open-right-sidebar tooltipstered fa-indent"></span>
+            </div>
+            <input class="active-tab" value="home" type="hidden" />
+            <div id="right-sidebar" class="right-sidebar-notifcations nav-collapse">
+                <div class="bs-example bs-example-tabs right-sidebar-tab-notification" data-example-id="togglable-tabs">
+                    <div role="presentation" class="" style="background-color:#333;color:#b8c7ce;padding: 11px;text-align: center;font-size: 20px;">
+                        <div role="tab" id="tasks-tab" data-toggle="tab" aria-controls="tasks" aria-expanded="false">Notifications</div>
+                    </div>
+                    <div id="right-sidebar-tab-content" class="tab-content" style="height:100%;">
+                        <div role="tabpanel" class="tab-pane fade active in" id="activities" aria-labelledby="activities-tab" style="height:100%;">
+                            <div class="right-sidebar-panel-content animated fadeInRight" tabindex="5001" style="height:100%; outline: none;">
+                                <div style="width:100%;">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="dropdown" style="z-index:20000">
+                                                <select class="form-control" style="width: 100%;" id='filter'>
+                                                    <option value="bus_no"><a href="#">Bus No</a></option>
+                                                    <option value="issue"><a href="#">Issue</a></option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--                                    <div class="row">-->
+                                    <!--                                        <div class="col-md-12">-->
+                                    <!--                                            <div class="input-group">-->
+                                    <input type="text" class="form-control" placeholder="Value" id="filterValue">
+                                    <!--                                            </div>-->
+                                    <!--                                        </div>-->
+                                    <!--                                    </div>-->
+                                </div>
+
+                                <ul class="right-sidebar-list" tabindex="5004" style="overflow: scroll;height: 100%;padding-bottom: 50px;">
+                                </ul>
+
+                                <div id="ascrail2004" class="nicescroll-rails" style="width: 3px; z-index: 1000; cursor: default; position: absolute; top: 0px; left: 286px; height: 513px; opacity: 0;">
+                                    <div style="position: relative; top: 0px; float: right; width: 3px; height: 446px; border: 0px solid rgb(255, 255, 255); border-radius: 0px; background-color: rgb(231, 231, 231); background-clip: padding-box;"></div>
+                                </div>
+                                <div id="ascrail2004-hr" class="nicescroll-rails" style="height: 3px; z-index: 1000; top: 510px; left: 0px; position: absolute; cursor: default; display: none; width: 286px; opacity: 0;">
+                                    <div style="position: relative; top: 0px; height: 3px; width: 289px; border: 0px solid rgb(255, 255, 255); border-radius: 0px; background-color: rgb(231, 231, 231); background-clip: padding-box;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="live-chat" class="passenger-sidebar passenger">
+
+            <header class="clearfix">
+
+                <!--                <a href="#" class="chat-close">x</a>-->
+
+                <h4 style="text-align:center">Passengers</h4>
+
+                <!--                <span class="chat-message-counter">3</span>-->
+
+            </header>
+
+            <div class="chat passenger-chat" style="padding-bottom:10px;display:none">
+
+                <div class="chat-history">
+                    <!--                    <div class="chat-message clearfix"><img src="http://www.freeiconspng.com/uploads/person-icon-blue-18.png" alt="" width="32" height="32"><div class="chat-message-content clearfix"><h4>Abode</h4></div></div><hr>-->
+                </div>
+            </div>
+            <!-- end chat -->
+
+        </div>
+        <div class="map-container" style="width:100%; height:100%; position:absolute; padding-bottom:50px; over background-color:red">
+            <!--                    <div><input id="search" style="position:fixed;left:200px; z-index:999;"></div>-->
+            <div class="pac-card" id="pac-card">
+                <div>
+                    <div id="type-selector" class="pac-controls">
+                        <input type="radio" name="type" id="changetype-address" checked>
+                        <label for="changetype-address">Addresses</label>
+
+                        <input type="radio" name="type" id="changetype-geocode">
+                        <label for="changetype-geocode">Driver</label>
+                    </div>
+                </div>
+                <div id="pac-container">
+                    <input id="pac-input" class="search-button" type="text" placeholder="Enter a location">
+                    <input id="search" class="search-button" type="text" placeholder="Enter Driver ID or Trip Id" style="display:none;">
+                </div>
+            </div>
+            <div id="map"></div>
+            <div id="infowindow-content">
+                <img src="" width="16" height="16" id="place-icon">
+                <span id="place-name" class="title"></span>
+                <br>
+                <span id="place-address"></span>
+            </div>
+        </div>
+
+        <!--        <span class="fTab">Online Drivers</span>-->
+        <div id="live-chat" class="passenger-sidebar driver" style="width:80%;">
+
+            <header class="clearfix" style="display:flex">
+
+                <div style="width:50%; display:inline-block">
+                    <h4 style="text-align:center">Online Drivers</h4>
+                </div>
+                <div style="width:50%; display:inline-block">
+                    <h4 style="text-align:center">Offline Drivers</h4>
+                </div>
+
+
+
+                <!--<span class="chat-message-counter">3</span>-->
+
+            </header>
+
+            <div class="chat driver-chat" style="padding:5px 0px 5px 0px;display:none">
+
+                <div class="chat-history" style="">
+                    <ul class="online" style="width:50%;background-color">
+                    </ul>
+                    <div class="headerDivider"></div>
+                    <ul class="offline" style="width:50%">
+
+                    </ul>
+
+                </div>
+            </div>
+            <!-- end chat -->
+
+        </div>
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="vertical-alignment-helper">
+                <div class="modal-dialog vertical-align-center">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+
+                            </button>
+                            <h4 class="modal-title" id="myModalLabel">Send Message</h4>
+
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="usr">Message:</label>
+                                <input type="text" class="form-control" id="messageField">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary sendMessage">Send</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.js'></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDMfEql3GxoMvFxgk32sVh-dc1BChmt6lM&libraries=places&callback=initMap" async defer></script>
+        <!--        <script src="https://maps.googleapis.com/maps/api/js?libraries=geometry,places&ext=.js"></script>-->
+        <script src='../../assets/dist/js/websocket.js'></script>
+        <script>
+            $(function() {
+                //                $('.dropdown').on('click', function() {
+                //                });
+                $('.passenger header').on('click', function() {
+                    $('.passenger-chat').slideToggle(300, 'swing');
+                    $('.chat-message-counter').fadeToggle(300, 'swing');
+
+                });
+
+                $('.chat-close').on('click', function(e) {
+
+                    e.preventDefault();
+                    $('.passenger').fadeOut(300);
+
+                });
+
+
+                $('.driver header').on('click', function() {
+
+                    $('.driver-chat').slideToggle(300, 'swing');
+                    //                    $('.chat-message-counter').fadeToggle(300, 'swing');
+
+                });
+
+                $('.chat-close').on('click', function(e) {
+
+                    e.preventDefault();
+                    $('.driver').fadeOut(300);
+
+                });
+                //                function footer() {
+                var footerH = $('footer');
+                var fH = footerH.height();
+
+                $('.fTab').on('click', function() {
+                    $(this).toggleClass('current');
+                    $('footer').slideToggle(500);
+                });
+                //                }
+                /*var $cardpanel = $( "<div class='card-panel black-text'>aswad</div>" );
+                $("#notificationInnerIn").append($cardpanel);  */
+                var d = new Date();
+                var curr_day = d.getDate();
+                var curr_month = d.getMonth();
+                var curr_year = d.getFullYear();
+
+                var curr_hour = d.getHours();
+                var curr_min = d.getMinutes();
+                var curr_sec = d.getSeconds();
+
+                curr_month++; // In js, first month is 0, not 1
+                if (curr_month < 10) {
+                    curr_month = "0" + curr_month;
+                }
+                var todayDate = curr_year + ":" + curr_month + ":" + curr_day;
+                // var todayDate = "2017" + "-" + "02" + "-" + "13";
+                /*$("#notificationInnerOut").append(todayDate);  */
+                notificationAjax();
+
+                function notificationAjax() {
+                    $.ajax({
+                        type: 'GET',
+                        beforeSend: function(xhr) {
+                            xhr.setRequestHeader("Content-type", "application/json");
+                        },
+                        url: 'http://54.255.154.6:3000/api/v1/notifications/live-notifications/' + todayDate,
+                        success: function(data) {
+                            console.log("NOTIFICATIONS" + data);
+                            if (data.success = "true") {
+                                if (data.notification.length > 0) {
+                                    var image;
+
+                                    for (i = 0; i < data.notification.length; i++) {
+                                        var notification = data.notification;
+                                        console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+                                        var notiDateTime = notification[i].date_time;
+                                        var notiDescription = notification[i].description;
+                                        var notiIssue = notification[i].issue;
+                                        var notiBusNum = notification[i].bus_num;
+                                        if (notiIssue == "breakdown") {
+                                            notiIssue = "Breakdown";
+                                            image = "../../assets/dist/img/breakdown.png";
+                                        } else if (notiIssue == "DL") {
+                                            notiIssue = "Delay";
+                                            image = "../../assets/dist/img/delay.png";
+                                        } else if (notiIssue == "TF") {
+                                            notiIssue = "Traffic";
+                                            image = "../../assets/dist/img/traffic.png";
+                                        } else {
+                                            notiIssue = "Others";
+                                            image = "../../assets/dist/img/others.png";
+                                        }
+                                        var ob = $("<li class='notificationItem' style='display:none' bus_no='" + notiBusNum + "' issue='" + notiIssue + "'></li>");
+                                        ob.html("<div class='overflow-hidden' style='width:46px;float:left'><img src='" + image + "' width='80' alt='image'></div><div class='textSidebar'><h5>Bus Number: " + notiBusNum + "</h5><h5>Issue: " + notiIssue + "</h5><p> " + notiDescription + "</p><p>Date: " + notiDateTime + "</p></div>")
+                                        $(".right-sidebar-list").prepend(ob);
+                                        $($("li", ".right-sidebar-list")[0]).css("display", "flex");
+
+                                        //                                                    alert(notification[i].date_time);
+                                    }
+                                }
+                            }
+                        }
+                    });
+                }
+
+                var delay = (function() {
+                    var timer = 0;
+                    return function(callback, ms) {
+                        clearTimeout(timer);
+                        timer = setTimeout(callback, ms);
+                    };
+                })();
+                $('body').on('keyup', '#filterValue', function() {
+                    var valueChoosen = $("#filter").val();
+                    if (valueChoosen == "issue") {
+                        var obj = $(this);
+                        console.log(obj.val());
+                        //                        delay(function() {
+                        $(".notificationItem").each(function(e, v) {
+                                var nofItem = $(this);
+                                //                        console.log('bu : ' + nofItem.attr('bus_no'));
+
+                                var issue = nofItem.attr('issue').toLowerCase();
+                                var search = obj.val();
+                                console.log('issue : ' + issue + ', ' + search.toLowerCase());
+                                if (issue.indexOf(search.toLowerCase()) >= 0) {
+                                    nofItem.css('display', 'flex');
+                                } else {
+                                    nofItem.css('display', 'none');
+                                }
+
+                            })
+                            //                        }, 1000);
+                    } else if (valueChoosen == "bus_no") {
+                        //                        delay(function() {
+                        var obj = $(this);
+                        console.log(obj.val());
+
+                        $(".notificationItem").each(function(e, v) {
+                                var nofItem = $(this);
+                                //                        console.log('bu : ' + nofItem.attr('bus_no'));
+
+                                var issue = nofItem.attr('bus_no').toLowerCase();
+                                var search = obj.val();
+                                console.log('issue : ' + issue + ', ' + search.toLowerCase());
+                                if (issue.indexOf(search.toLowerCase()) >= 0) {
+                                    nofItem.css('display', 'flex');
+                                } else {
+                                    nofItem.css('display', 'none');
+                                }
+
+                            })
+                            //                        }, 1000);
+                    }
+
+                });
+
+
+
+
+
+            });
+            $('.toggle-right-sidebar span').on('click', function() {
+
+                if ($("#right-sidebar").hasClass("hide-right-bar-notifications")) {
+                    $(".btn-bottom-right-sidebar-close").fadeIn("fast"); //show the button close for sidebar notifications
+
+                    //insert class to left sidebar
+                    if (!$("#sidebar").hasClass('hide-left-bar')) {
+
+                        $("#sidebar").addClass("hide-left-bar");
+                        $("#main-content").addClass("merge-left");
+
+                        if ($("html").outerWidth() <= 750) {
+                            if ($('#sidebar').hasClass('show-left-bar-mobile')) {
+                                $('#sidebar').removeClass("show-left-bar-mobile");
+                            }
+                        }
+
+                    } else {
+                        if ($("html").outerWidth() <= 750) {
+                            if ($('#sidebar').hasClass('show-left-bar-mobile')) {
+                                $('#sidebar').removeClass("show-left-bar-mobile");
+                            }
+                        }
+                    }
+
+                    $("#right-sidebar").removeClass("hide-right-bar-notifications");
+
+                    $("#right-sidebar").addClass(" animated fadeInRight").one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
+                        $(this).removeClass(" animated fadeInRight");
+                    });
+
+                    $("#main-content").addClass("merge-right-sidebar-notifications");
+
+                    $(".toggle-right-sidebar").addClass("active");
+                    $(this).removeClass("fa-outdent");
+                    $(this).addClass("fa-indent");
+
+                } else {
+
+                    $(".btn-bottom-right-sidebar-close").fadeOut("fast"); //hide the button close for sidebar notifications
+
+                    //remove class to left sidebar
+                    if ($("#sidebar").hasClass('hide-left-bar')) {
+                        $("#sidebar").removeClass("hide-left-bar");
+                        $("#main-content").removeClass("merge-left");
+                    }
+
+                    $("#right-sidebar").addClass("hide-right-bar-notifications");
+
+                    $("#right-sidebar").addClass(" animated fadeOutRight").one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
+                        $(this).removeClass(" animated fadeOutRight");
+                    });
+
+                    $("#main-content").removeClass("merge-right-sidebar-notifications");
+
+                    $(".toggle-right-sidebar").removeClass("active");
+                    $(this).removeClass("fa-indent");
+                    $(this).addClass("fa-outdent");
+                }
+
+            });
+        </script>
+        <!--        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDMfEql3GxoMvFxgk32sVh-dc1BChmt6lM&callback=initMap" async defer></script>-->
+
+    </body>
+
+    </html>
+
+    <%- include includes/footer.ejs %>
