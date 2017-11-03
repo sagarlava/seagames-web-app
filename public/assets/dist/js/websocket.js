@@ -391,7 +391,7 @@ function setupWebSocket() {
                             ob.attr('lng', onlineUsers[i].lon);
                             ob.attr('trip_id', onlineUsers[i].tripId);
                             ob.attr('driverName', onlineUsers[i].driverName);
-                            $(ob).append("<div class='dropdown-content' style='left:0;'><a href='#'>Center Map</a><a href='#' id='" + onlineUsers[i].driverName + "' class='toggleMessage' data-toggle='modal' data-target='#myModal'>Send Message</a></div>");
+                            $(ob).append("<div class='dropdown-content' style='left:0;'><a href='#'>Center Map</a><a href='#' id='" + onlineUsers[i].driverId + "' class='toggleMessage' data-toggle='modal' data-target='#myModal'>Send Message</a></div>");
                             console.log(onlineUsers[i].busNo + " ::MOVE----> " + onlineUsers[i].lat)
                             ob.slideToggle();
 
@@ -402,7 +402,7 @@ function setupWebSocket() {
 
                             //                        var parent = $("<span class='dropdown' style='float:left;'></span>");
                             var ob = $("<li style='display:none' id='" + onlineUsers[i].busNo + "' lat='" + onlineUsers[i].lat + "' lng='" + onlineUsers[i].lon + "' trip_id='" + onlineUsers[i].tripId + "' driverName='" + onlineUsers[i].driverName + "' busNo='" + onlineUsers[i].busNo + "' class='userAction dropdown'></li>");
-                            ob.html("<a href='#'><i class='fa fa-user'></i></a> " + onlineUsers[i].busNo + "<div class='dropdown-content' style='left:0;'><a href='#'>Center Map</a><a href='#' id='" + onlineUsers[i].driverName + "' class='toggleMessage' data-toggle='modal' data-target='#myModal'>Send Message</a></div>")
+                            ob.html("<a href='#'><i class='fa fa-user'></i></a> " + onlineUsers[i].busNo + "<div class='dropdown-content' style='left:0;'><a href='#'>Center Map</a><a href='#' id='" + onlineUsers[i].driverId + "' class='toggleMessage' data-toggle='modal' data-target='#myModal'>Send Message</a></div>")
                                 //                        parent.html(ob);
                             $(".driver .chat-history .online").prepend(ob);
                             $($("li", ".driver .chat-history .online")[0]).slideToggle()
@@ -585,7 +585,7 @@ $(function () {
         //        messageContent.notification = notification;
         //        
         var jsonObject = {
-            "username": messageToId,
+            "driverId": messageToId,
             "message": messageField
         }
 

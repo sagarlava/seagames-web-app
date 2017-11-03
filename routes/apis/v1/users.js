@@ -9,6 +9,7 @@ var Trip = require('../../../models/trip');
 var session = require('express-session');
 var Promise = require('promise');
 var rp = require('request-promise');
+var ObjectId = require('mongoose').Types.ObjectId;
 
 router.get('/', function (req, res, next) {
     res.send('test');
@@ -18,9 +19,9 @@ router.get('/', function (req, res, next) {
 
  router.post('/send-message', function (req, res) {
      var message = req.body.message;
-     var username = req.body.username;
+     var driverId = req.body.driverId;
      User.findOne({
-         username: username
+        _id: new ObjectId(driverId)
      }, function (err, doc) {
          var deviceId;
              if (doc) {
