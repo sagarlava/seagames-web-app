@@ -75,7 +75,7 @@
         var storedUserType = $('#stored_user_type').val();
                 $.ajax({
                     type: 'GET',
-                    url: "http://54.255.154.6:3000/api/v1/users/existing-buses",
+                    url: "/api/v1/users/existing-buses",
                     dataType: 'json',
                     success: function(data) {
                         var resp = {

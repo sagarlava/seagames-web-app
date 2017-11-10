@@ -82,7 +82,7 @@
                                     //-----Get Existing Buses DropDown
                                     $.ajax({
                                         type: 'GET',
-                                        url: "http://54.255.154.6:3000/api/v1/users/existing-buses",
+                                        url: "/api/v1/users/existing-buses",
                                         dataType: 'json',
                                         success: function(data) {
                                             var resp = {
@@ -102,7 +102,7 @@
                                     //-----Get Offlone Users Array
                                     $.ajax({
                                         type: 'GET',
-                                        url: "http://54.255.154.6:3000/api/v1/users/offline-users",
+                                        url: "/api/v1/users/offline-users",
                                         dataType: 'json',
                                         success: function(data) {
                                             existingUsers = data;

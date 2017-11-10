@@ -83,7 +83,7 @@
 
                                     function filterFunction(startDate, endDate, reportChoice, value) {
                                         alert(startDate + " " + endDate + " " + reportChoice + " " + value)
-                                        window.open('http://54.255.154.6:3000/api/v1/notifications/report/' + startDate + '/' + endDate + '/' + reportChoice + '/' + value);
+                                        window.open('/api/v1/notifications/report/' + startDate + '/' + endDate + '/' + reportChoice + '/' + value);
                                     }
 
                                     $("#generateReport").click(function() {

@@ -755,11 +755,11 @@
                 $.ajax({
                     type: 'POST',
                     data: UrlToPass,
-                    url: 'http://54.255.154.6:3000/users/admin-authenticate',
+                    url: '/users/admin-authenticate',
                     success: function(data) {
                         console.log(data);
                         if (data.success) {
-                            window.location = "http://54.255.154.6:3000/";
+                            window.location = "/";
                         } else {
                             $(".app__days").text(data.msg);
                         }

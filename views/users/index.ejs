@@ -287,7 +287,7 @@ xpopup
                     <span class="btn btn-warning btn-file">Upload CSV <input id="filecsv" type="file" name="file"></span>
                 </form>
 -->
-                <a href="http://54.255.154.6:3000/users/add" class="btn btn-primary">Add User <i class="fa fa-plus"></i> </a>
+                <a href="/users/add" class="btn btn-primary">Add User <i class="fa fa-plus"></i> </a>
 
             </ol>
         </section>
@@ -364,8 +364,8 @@ xpopup
 
                                         <td>
                                             <a id="<%= users[i]._id %>" data-toggle="modal" data-target="#myModal" class="userClass" title="Delete"><i class="fa fa-trash"></i></a>&nbsp;&nbsp;
-                                            <a href="http://54.255.154.6:3000/users/edit/<%= users[i]._id %>" title="Edit Profile"><i class="fa fa-pencil"></i></a>&nbsp;&nbsp;
-                                            <a href="http://54.255.154.6:3000/users/edit-password/<%= users[i]._id %>" title="Edit Password"><i class="fa fa-lock"></i></a>
+                                            <a href="/users/edit/<%= users[i]._id %>" title="Edit Profile"><i class="fa fa-pencil"></i></a>&nbsp;&nbsp;
+                                            <a href="/users/edit-password/<%= users[i]._id %>" title="Edit Password"><i class="fa fa-lock"></i></a>
                                         </td>
                                     </tr>
                                     <% } %>
@@ -406,7 +406,7 @@ xpopup
             });
 
             $("#deleteAction").click(function() {
-              window.location.replace("http://54.255.154.6:3000/users/delete/" + deleteLogin);
+              window.location.replace("/users/delete/" + deleteLogin);
             });
 
             //close popup
@@ -434,7 +434,7 @@ xpopup
 
                 $.ajax({
 
-                    url: 'http://54.255.154.6:3000/users/upload',
+                    url: '/users/upload',
                     type: 'POST',
                     data: formData,
                     //                    async: false,

@@ -7,6 +7,10 @@ var directionsService;
 var directionsDisplay;
 var onlineTripId = [];
 
+//const SERVERIP="54.255.154.6";
+const SERVERIP="52.41.89.223";
+const WEBSOCKETPORT="7979";
+
 
 $(function () {
     setupWebSocket()
@@ -106,9 +110,9 @@ function initMap() {
 function setupWebSocket() {
     if ("WebSocket" in window) {
         //alert("WebSocket is supported by your Browser!");
-        var ip = "54.255.154.6";
+        var ip = SERVERIP;
         //var ip="127.0.0.1";
-        var port = 7979; //or your port
+        var port = WEBSOCKETPORT; //or your port
         // Let us open a web socket
         var ws = new WebSocket("ws://" + ip + ":" + port + "/");
 
@@ -498,7 +502,7 @@ function passengerAjax(trip_id) {
         beforeSend: function (xhr) {
             xhr.setRequestHeader("Content-type", "application/json");
         },
-        url: 'http://54.255.154.6:3000/api/v1/passenger/online-passengers/' + trip_id,
+        url: '/api/v1/passenger/online-passengers/' + trip_id,
         success: function (data) {
             if (data.success = "true") {
                 $(".passenger-chat .chat-history").empty();
@@ -529,7 +533,7 @@ function driversAjax() {
         beforeSend: function (xhr) {
             xhr.setRequestHeader("Content-type", "application/json");
         },
-        url: 'http://54.255.154.6:3000/api/v1/users/offline-users',
+        url: '/api/v1/users/offline-users',
         success: function (data) {
             if (data.success = "true") {
                 offlineUsers = data.users;
@@ -595,7 +599,7 @@ $(function () {
             type: "POST",
             contentType: "application/json",
             dataType: "json",
-            url: "http://54.255.154.6:3000/api/v1/users/send-message",
+            url: "/api/v1/users/send-message",
             headers: {
                 "Authorization": "key=AAAAOSqYsUg:APA91bEin90FtJgx2XkVm9qiWiFr13AJ1Eu59wzRI-JF_zD-zT3PdbhvGGXetwWBiDPeybYuceiu0iktCIp6XOeckl3kRtT7uM-yR9YFh1RaKVofFnw4J5NyFDEfpOnMlsRYCG4tLTL4"
             },
