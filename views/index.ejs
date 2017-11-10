@@ -568,7 +568,7 @@
                         beforeSend: function(xhr) {
                             xhr.setRequestHeader("Content-type", "application/json");
                         },
-                        url: 'http://54.255.154.6:3000/api/v1/notifications/live-notifications/' + todayDate,
+                        url: '/api/v1/notifications/live-notifications/' + todayDate,
                         success: function(data) {
                             console.log("NOTIFICATIONS" + data);
                             if (data.success = "true") {
