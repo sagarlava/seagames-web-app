@@ -5,6 +5,16 @@ img {
     display: inline-block;
     vertical-align: top;
 }
+
+img.indo {
+    max-width: 100%;
+    width: auto;
+    height: 47px;
+    display: inline-block;
+    vertical-align: top;
+    padding-left: 30px;
+}
+
 .winner_img {
     width: 100px;
     height: 100px;
