@@ -26,8 +26,8 @@ $(function () {
 function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
         center: {
-            lat: 3.0544,
-            lng: 101.6909
+            lat: -6.21462,
+            lng: 106.84513
         },
         zoom: 15,
         disableDefaultUI: true
