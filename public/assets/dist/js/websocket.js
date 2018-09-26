@@ -26,8 +26,8 @@ $(function () {
 function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
         center: {
-            lat: -6.21462,
-            lng: 106.84513
+            lat: -6.213510,
+            lng: 106.802570
         },
         zoom: 15,
         disableDefaultUI: true
@@ -205,10 +205,10 @@ function setupWebSocket() {
                 var trialBus = String(bus_num);
                 var region = parts[8];
                 region = region.toLowerCase();
-
                 // var image = '../../assets/dist/img/bus.png';
                 var image = '../../assets/dist/img/' + region + '.png';
                 console.log("UP--->", trip_id);
+                var geocoder = new google.maps.Geocoder;
 
 
                 var latLng = new google.maps.LatLng(lt, ln)
@@ -236,6 +236,17 @@ function setupWebSocket() {
                             var infowindow = new google.maps.InfoWindow();
                             // infowindow.setContent('Abdulghani Akhras');
                             infowindow.open(map, marker);
+                            geocoder.geocode({'location': distinationOrigin}, function(results, status) {
+                                if (status === 'OK') {
+                                    if (results[0]) {
+                                        infowindow.setContent(results[0].formatted_address);
+                                    } else {
+                                        window.alert('No results found');
+                                    }
+                                } else {
+                                    window.alert('Geocoder failed due to: ' + status);
+                                }
+                            });
                             calculateAndDisplayRoute(directionsService, directionsDisplay, distinationOrigin, destinationMarker, infowindow);
                             //Get and display trip Passengers
                             passengerAjax(trip_id);
