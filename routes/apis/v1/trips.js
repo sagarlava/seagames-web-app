@@ -60,6 +60,48 @@ router.put('/end/:id', function (req, res) {
     });
 });
 
+router.put('/transfer/:id', function (req, res) {
+    return Trip.findById(req.params.id, function (errr, trip) {
+        var b_num = req.body.bus_num;
+        if(!errr) {
+            Bus.findOne({
+                bus_num: b_num
+            }, function (err, doc) {
+                if (doc) {
+                    var bus_id = doc._id;
+                    trip.bus_id = bus_id;
+                    return trip.save(function (err) {
+                        if (!err) {
+                            return res.json({
+                                success: true,
+                                trip_info: trip
+                            });
+                            // console.log("updated"+" "+req.body.Depart_time+" "+req.body.Depart_location);
+                        } else {
+                            return res.json({
+                                success: false,
+                                message: "Could not update trip",
+                                details: err
+                            });
+                        }
+                    });
+                } else {
+                    return res.json({
+                        success: false,
+                        message: "Bus not found"
+                    });
+                }
+            });
+        } else {
+            return res.json({
+                success: false,
+                message: "Trip not found"
+            });
+        }
+       
+    });
+});
+
 
 function getDateTime() {
 

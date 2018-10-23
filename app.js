@@ -45,6 +45,7 @@ const passengersView = require('./routes/passengers');
 var apiUsers = require('./routes/apis/v1/users');
 const trips = require('./routes/apis/v1/trips');
 const passengers = require('./routes/apis/v1/passengers');
+const busesapi = require('./routes/apis/v1/buses');
 
 const notifications = require('./routes/apis/v1/notifications');
 
@@ -90,6 +91,7 @@ app.use('/passengers', passengersView);
 app.use('/api/v1/users', apiUsers);
 app.use('/api/v1/trip', trips);
 app.use('/api/v1/passenger', passengers);
+app.use('/api/v1/buses', busesapi);
 app.use('/api/v1/notifications', notifications);
 
 // catch 404 and forward to error handler
