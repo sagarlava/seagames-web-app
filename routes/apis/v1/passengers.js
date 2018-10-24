@@ -12,18 +12,37 @@ const User = require('../../../models/user');
 router.post('/checkin', function (req, res) {
 
     var data = req.body;
-    data.board_time = getDateTime();
-    var obj = new Passenger(data);
-    obj.save(function (err, obj) {
-        if (err) return console.error(err);
-        // res.status(200).json(obj);
-        else {
+
+    Passenger.findOne({
+        passenger_id: req.params.id,
+        depart_time: null
+    }, function (err, passenger) {
+        if (passenger) {
             return res.json({
-                success: true,
-                passenger_info: obj
+                success: false,
+                message: "Duplicate Checkin"
+            })
+        } else {
+            data.board_time = getDateTime();
+            var obj = new Passenger(data);
+            obj.save(function (err, obj) {
+                if (err) return console.error(err);
+                // res.status(200).json(obj);
+                else {
+                    return res.json({
+                        success: true,
+                        passenger_info: obj
+                    });
+                }
             });
         }
-    });
+
+    }).sort({
+        x: -1
+    }).limit(1);
+
+
+    
 });
 
 
