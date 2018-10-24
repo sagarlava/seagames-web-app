@@ -118,27 +118,9 @@ router.put('/transfer/:id', function (req, res) {
                     Passenger.update({trip_id:req.params.id}, {trip_id: tripId}, {multi: true}, 
                         function(err, num) {
                             if(!err) {
-                                return Trip.findOne({_id:req.params.id}, function (errrr, trp) {
-                                    if(trp) {
-                                        trp.bus_id = bus_id;
-                                        return trp.save(function (errrrr) {
-                                            if (!errrrr) {
-                                                return res.json({
-                                                    success: true,
-                                                    trip_info: trp
-                                                });
-                                                // console.log("updated"+" "+req.body.Depart_time+" "+req.body.Depart_location);
-                                            } else {
-                                                return res.json({
-                                                    success: false,
-                                                    message: "Could not update bus info in current trip",
-                                                    details: err
-                                                });
-                                            }
-                                        });
-                                    } else {
-
-                                    }
+                                return res.json({
+                                    success: true,
+                                    message: "Passengers transferred successfully"
                                 });
                             } else {
                                 return res.json({
