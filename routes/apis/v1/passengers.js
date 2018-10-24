@@ -47,7 +47,7 @@ router.post('/checkin', function (req, res) {
 
 
 router.put('/checkout/:id', function (req, res) {
-    return Passenger.findById(req.params.id, function (err, passenger) {
+    return Passenger.findOne({_id:req.params.id, trip_id:req.body.trip_id}, function (err, passenger) {
         passenger.depart_time = getDateTime();
         passenger.depart_location = req.body.depart_location;
         return passenger.save(function (err) {
