@@ -14,13 +14,15 @@ router.post('/checkin', function (req, res) {
     var data = req.body;
 
     Passenger.findOne({
-        passenger_id: req.params.id,
+        passenger_id: data.passenger_id,
+        trip_id: data.trip_id,
         depart_time: null
     }, function (err, passenger) {
         if (passenger) {
             return res.json({
                 success: false,
-                message: "Duplicate Checkin"
+                message: "Duplicate Checkin",
+                passenger_info: passenger
             })
         } else {
             data.board_time = getDateTime();
@@ -37,9 +39,7 @@ router.post('/checkin', function (req, res) {
             });
         }
 
-    }).sort({
-        x: -1
-    }).limit(1);
+    });
 
 
     
