@@ -50,7 +50,8 @@ router.put('/checkout/:id', function (req, res) {
 router.get('/online-passengers/:trip_id', function (req, res) {
     if (req.params.trip_id) {
         Passenger.find({
-            trip_id: req.params.trip_id
+            trip_id: req.params.trip_id,
+            depart_time: null
         }, function (err, docs) {
             return res.json({
                 success: true,
