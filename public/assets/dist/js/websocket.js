@@ -236,7 +236,7 @@ function setupWebSocket() {
                             var infowindow = new google.maps.InfoWindow();
                             // infowindow.setContent('Abdulghani Akhras');
                             infowindow.open(map, marker);
-                            geocoder.geocode({'location': distinationOrigin}, function(results, status) {
+                            geocoder.geocode({'location': destinationMarker}, function(results, status) {
                                 if (status === 'OK') {
                                     if (results[0]) {
                                         infowindow.setContent(results[0].formatted_address);
